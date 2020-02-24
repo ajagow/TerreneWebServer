@@ -139,8 +139,28 @@ app.route("/attempts/count").get(function(req, res, next) {
   });
 });
 
-app.route("/reset").get(function(req, res, next) {
-  const q = "delete from users; delete from attempts;";
+app.route("/reset/users").get(function(req, res, next) {
+  const q = "delete from users;";
+  connection.query(q, function(error, results, fields) {
+    if (error) {
+      //   throw error;
+      res.json(error);
+    }
+    res.json(results);
+  });
+});
+app.route("/reset/attempts").get(function(req, res, next) {
+  const q = "delete from attempts;";
+  connection.query(q, function(error, results, fields) {
+    if (error) {
+      //   throw error;
+      res.json(error);
+    }
+    res.json(results);
+  });
+});
+app.route("/reset/quests").get(function(req, res, next) {
+  const q = "delete from quests;";
   connection.query(q, function(error, results, fields) {
     if (error) {
       //   throw error;
