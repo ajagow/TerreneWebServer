@@ -128,6 +128,38 @@ app.route("/attempts").get(function(req, res, next) {
   });
 });
 
+app.route("/votes/:userId/:optionNumber").get(function(req, res, next) {
+  const q =
+    "INSERT INTO votes VALUES (" +
+    req.params.userId +
+    ", " +
+    '"' +
+    req.params.optionNumber +
+    '");';
+  connection.query(
+    q,
+    // req.params.userId,
+    function(error, results, fields) {
+      if (error) {
+        //   throw error;
+        res.json(error);
+      }
+      res.json(results);
+    }
+  );
+});
+
+app.route("/votes").get(function(req, res, next) {
+  const q = "select * from votes;";
+  connection.query(q, function(error, results, fields) {
+    if (error) {
+      //   throw error;
+      res.json(error);
+    }
+    res.json(results);
+  });
+});
+
 app.route("/attempts/count").get(function(req, res, next) {
   const q = "select count(*) as num_attempts from attempts;";
   connection.query(q, function(error, results, fields) {
@@ -161,6 +193,17 @@ app.route("/reset/attempts").get(function(req, res, next) {
 });
 app.route("/reset/quests").get(function(req, res, next) {
   const q = "delete from quests;";
+  connection.query(q, function(error, results, fields) {
+    if (error) {
+      //   throw error;
+      res.json(error);
+    }
+    res.json(results);
+  });
+});
+
+app.route("/reset/votes").get(function(req, res, next) {
+  const q = "delete from votes;";
   connection.query(q, function(error, results, fields) {
     if (error) {
       //   throw error;
